@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "anyreach": {
+      "url": "https://api.anyreach.ai/mcp",
+      "auth": {
+        "CLIENT_ID": "91qjw16i645tv7suevugr"
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "anyreach",
+  "displayName": "Anyreach",
+  "version": "1.0.0",
+  "description": "Anyreach is a platform for building AI agents that handle real customer conversations across channels — phone calls, web voice and chat, and email — for sales, support, scheduling, and surveys. You configure an agent once and deploy it to any channel, run it outbound at scale with campaigns, ground it in your own knowledge, and automate the work around it with programmable workflows.",
+  "author": {
+    "name": "Anyreach",
+    "email": "support@anyreach.ai",
+    "url": "https://anyreach.ai"
+  },
+  "homepage": "https://anyreach.ai",
+  "repository": "https://github.com/anyreachai/agent-plugins",
+  "license": "MIT",
+  "keywords": [
+    "anyreach",
+    "anyreach agents",
+    "anyreach voice agents",
+    "anyreach chat agents",
+    "anyreach email agents",
+    "anyreach campaigns",
+    "anyreach workflows",
+    "anyreach knowledge base"
+  ],
+  "logo": "assets/logo.svg",
+  "mcpServers": "./mcp.json"
+}

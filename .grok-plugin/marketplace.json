@@ -1,0 +1,34 @@
+{
+  "name": "anyreach",
+  "description": "Official Anyreach plugins: connect your AI coding agent to Anyreach over MCP",
+  "owner": {
+    "name": "Anyreach",
+    "email": "support@anyreach.ai"
+  },
+  "plugins": [
+    {
+      "name": "anyreach",
+      "description": "Build AI agents that handle calls, web chats, and email — and automate everything around them.",
+      "category": "productivity",
+      "source": {
+        "type": "local",
+        "path": "./plugins/anyreach"
+      },
+      "version": "1.0.0",
+      "homepage": "https://anyreach.ai",
+      "keywords": [
+        "anyreach",
+        "anyreach agents",
+        "anyreach voice agents",
+        "anyreach chat agents",
+        "anyreach email agents",
+        "anyreach campaigns",
+        "anyreach workflows",
+        "anyreach knowledge base"
+      ],
+      "domains": [
+        "anyreach.ai"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+<!-- TODO: placeholder. Replace with the official Anyreach mark from https://anyreach-brand-guide.lovable.app before publishing. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Anyreach">
+  <rect width="256" height="256" rx="56" fill="#111111"/>
+  <path d="M128 56 L196 200 H164 L150 168 H106 L92 200 H60 Z M117 142 H139 L128 116 Z" fill="#ffffff"/>
+</svg>

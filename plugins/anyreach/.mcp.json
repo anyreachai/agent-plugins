@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "anyreach": {
+      "type": "http",
+      "url": "https://api.anyreach.ai/mcp"
+    }
+  }
+}

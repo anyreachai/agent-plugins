@@ -1,0 +1,14 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "ai.anyreach/anyreach",
+  "title": "Anyreach",
+  "description": "Build AI agents that handle calls, web chats, and email — and automate everything around them.",
+  "version": "1.0.0",
+  "websiteUrl": "https://anyreach.ai",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.anyreach.ai/mcp"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "name": "anyreach",
+  "displayName": "Anyreach",
+  "version": "1.0.0",
+  "summary": "Build AI agents that handle calls, web chats, and email — and automate everything around them.",
+  "description": "Anyreach is a platform for building AI agents that handle real customer conversations across channels — phone calls, web voice and chat, and email — for sales, support, scheduling, and surveys. You configure an agent once and deploy it to any channel, run it outbound at scale with campaigns, ground it in your own knowledge, and automate the work around it with programmable workflows.",
+  "homepage": "https://anyreach.ai",
+  "documentationUrl": "https://docs.anyreach.ai/mcp/overview",
+  "supportEmail": "support@anyreach.ai",
+  "privacyPolicyUrl": "https://anyreach.ai/legal/privacy",
+  "termsOfServiceUrl": "https://anyreach.ai/legal/terms",
+  "logo": "assets/logo.svg",
+  "keywords": [
+    "anyreach",
+    "anyreach agents",
+    "anyreach voice agents",
+    "anyreach chat agents",
+    "anyreach email agents",
+    "anyreach campaigns",
+    "anyreach workflows",
+    "anyreach knowledge base"
+  ],
+  "examplePrompts": [
+    "create a demo agent for <website url>",
+    "create a workflow that syncs google sheet data into a custom data table",
+    "analyze the conversations and give me a dashboard"
+  ],
+  "mcp": {
+    "server": "anyreach",
+    "url": "https://api.anyreach.ai/mcp"
+  },
+  "clients": {
+    "cursor": {
+      "oauthClientId": "91qjw16i645tv7suevugr"
+    },
+    "claude": {},
+    "grok": {
+      "oauthClientId": "GROK_BUILD_CLIENT_ID_TBD",
+      "category": "productivity",
+      "domains": ["anyreach.ai"]
+    },
+    "devin": {
+      "oauthClientId": "DEVIN_CLIENT_ID_TBD",
+      "description": "Build AI agents that handle calls, web chats, and email — and automate everything around them",
+      "shortDescription": "AI agents for calls, chat and email",
+      "keywords": ["Customer & Sales", "Communication", "AI & Machine Learning"]
+    }
+  },
+  "registry": {
+    "path": "server.json",
+    "name": "ai.anyreach/anyreach",
+    "title": "Anyreach",
+    "description": "Build AI agents that handle calls, web chats, and email — and automate everything around them."
+  }
+}

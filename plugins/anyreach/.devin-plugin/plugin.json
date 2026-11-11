@@ -1,0 +1,20 @@
+{
+  "name": "anyreach",
+  "displayName": "Anyreach",
+  "description": "Build AI agents that handle calls, web chats, and email — and automate everything around them",
+  "shortDescription": "AI agents for calls, chat and email",
+  "homepage": "https://anyreach.ai",
+  "repository": "https://github.com/anyreachai/agent-plugins",
+  "logo": "assets/logo.svg",
+  "keywords": [
+    "Customer & Sales",
+    "Communication",
+    "AI & Machine Learning"
+  ],
+  "mcpServers": {
+    "anyreach": {
+      "url": "https://api.anyreach.ai/mcp",
+      "oauthClientId": "DEVIN_CLIENT_ID_TBD"
+    }
+  }
+}
