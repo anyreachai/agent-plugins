@@ -120,10 +120,15 @@ function pluginFiles(p) {
     files[`${dir}/.grok-plugin/mcp.json`] = httpServer(p, oauth);
   }
 
-  // Devin takes servers only inline in its manifest (CognitionAI/devin-marketplace).
+  // Devin servers go inline in its manifest (CognitionAI/devin-marketplace);
+  // oauthScopes needs oauthClientId, and a plugin may not declare a secret
+  // (docs.devin.ai/product-guides/plugin-mcp-setups).
   if (devin) {
     const server = { url: p.mcp.url };
-    if (devin.oauthClientId) server.oauthClientId = devin.oauthClientId;
+    if (devin.oauthClientId) {
+      server.oauthClientId = devin.oauthClientId;
+      server.oauthScopes = p.mcp.oauthScopes;
+    }
     files[`${dir}/.devin-plugin/plugin.json`] = {
       name: p.name,
       displayName: p.displayName,
