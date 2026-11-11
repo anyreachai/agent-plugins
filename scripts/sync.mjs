@@ -5,6 +5,9 @@
 //   node scripts/sync.mjs           write the generated files
 //   node scripts/sync.mjs --check   fail if any generated file is stale (CI)
 //   node scripts/sync.mjs --strict  also fail on *_TBD placeholders (release)
+//   node scripts/sync.mjs --verify-scopes
+//                                   compare mcp.oauthScopes with the scopes each
+//                                   server advertises in its 401 (needs network)
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
@@ -12,8 +15,9 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const args = new Set(process.argv.slice(2));
-const CHECK = args.has("--check") || args.has("--strict");
+const CHECK = args.has("--check") || args.has("--strict") || args.has("--verify-scopes");
 const STRICT = args.has("--strict");
+const VERIFY_SCOPES = args.has("--verify-scopes");
 
 const REGISTRY_SCHEMA =
   "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json";
@@ -48,6 +52,8 @@ function lint(p) {
     if (devin.shortDescription.length > 40) fail("devin.shortDescription exceeds 40 chars");
   }
   if (!existsSync(join(ROOT, "plugins", p.name, p.logo))) fail(`logo ${p.logo} is missing`);
+  if (!Array.isArray(p.mcp.oauthScopes) || !p.mcp.oauthScopes.length)
+    fail("mcp.oauthScopes must list the scopes the server advertises");
   for (const [client, cfg] of Object.entries(p.clients))
     if (cfg.oauthClientId?.endsWith("_TBD"))
       (STRICT ? errors : warnings).push(`${where}: ${client} OAuth client ID is a placeholder`);
@@ -106,7 +112,11 @@ function pluginFiles(p) {
       logo: `./${p.logo}`,
       mcpServers: "./.grok-plugin/mcp.json",
     };
-    const oauth = grok.oauthClientId ? { oauth: { clientId: grok.oauthClientId } } : {};
+    // Grok sends no `scope` unless told, and Logto then grants nothing for the
+    // MCP resource (access_denied), so the scopes are listed explicitly.
+    const oauth = grok.oauthClientId
+      ? { oauth: { clientId: grok.oauthClientId, scopes: p.mcp.oauthScopes } }
+      : {};
     files[`${dir}/.grok-plugin/mcp.json`] = httpServer(p, oauth);
   }
 
@@ -187,7 +197,39 @@ function catalogFiles() {
   };
 }
 
+// The server lists its scopes in the WWW-Authenticate header of an
+// unauthenticated request; mcp.oauthScopes has to match it exactly.
+async function verifyScopes(p) {
+  const res = await fetch(p.mcp.url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json, text/event-stream" },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: 1,
+      method: "initialize",
+      params: { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "sync", version: "0" } },
+    }),
+  });
+  const advertised = /scope="([^"]*)"/.exec(res.headers.get("www-authenticate") ?? "")?.[1];
+  if (advertised === undefined) {
+    errors.push(`${p.mcp.url}: no scope in WWW-Authenticate (HTTP ${res.status})`);
+    return;
+  }
+  const want = advertised.split(" ").filter(Boolean);
+  const have = p.mcp.oauthScopes;
+  const missing = want.filter((s) => !have.includes(s));
+  const extra = have.filter((s) => !want.includes(s));
+  if (missing.length || extra.length)
+    errors.push(
+      `shared/plugins/${p.name}.json: mcp.oauthScopes differs from ${p.mcp.url}` +
+        (missing.length ? `; missing ${missing.join(" ")}` : "") +
+        (extra.length ? `; not advertised ${extra.join(" ")}` : ""),
+    );
+  else console.log(`ok: ${p.name} scopes match ${p.mcp.url} (${want.length})`);
+}
+
 plugins.forEach(lint);
+if (VERIFY_SCOPES) for (const p of plugins) await verifyScopes(p);
 const outputs = Object.assign(catalogFiles(), ...plugins.map(pluginFiles));
 
 const stale = [];

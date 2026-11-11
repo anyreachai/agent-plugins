@@ -35,7 +35,7 @@ How each client registers with Anyreach's sign-in:
 | - | - | - |
 | Claude Code | `.mcp.json` | Client ID Metadata Document (no client ID in the config) |
 | Cursor | `mcp.json` | Pre-registered public client (`auth.CLIENT_ID`); callbacks `https://www.cursor.com/agents/mcp/oauth/callback` and `http://localhost:8787/callback` |
-| Grok Build | `.grok-plugin/mcp.json` | Pre-registered public native client (`oauth.clientId`); loopback callback `http://127.0.0.1/callback` on a random port |
+| Grok Build | `.grok-plugin/mcp.json` | Pre-registered public native client (`oauth.clientId`) requesting the server's scopes (`oauth.scopes`); loopback callback `http://127.0.0.1/callback` on a random port |
 | Devin | `.devin-plugin/plugin.json` | Pre-registered public client (`oauthClientId`); callback `https://api.devin.ai/mcp/oauth/callback` |
 
 Network endpoints this plugin talks to: `https://api.anyreach.ai/mcp` (the MCP server) and `https://auth.authenticately.com/oidc` (Anyreach's sign-in).

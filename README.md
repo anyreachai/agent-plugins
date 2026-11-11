@@ -55,7 +55,10 @@ Every catalog, manifest, MCP config and `server.json` is generated. Edit `shared
 node scripts/sync.mjs           # regenerate
 node scripts/sync.mjs --check   # what CI runs
 node scripts/sync.mjs --strict  # also fails on *_TBD placeholders; run before a release
+node scripts/sync.mjs --verify-scopes  # compares mcp.oauthScopes with the live server
 ```
+
+`mcp.oauthScopes` in `shared/plugins/anyreach.json` must match the scopes `https://api.anyreach.ai/mcp` advertises in the `scope="…"` of its 401 `WWW-Authenticate` header. Grok Build sends only the scopes listed in its config. Without them, Anyreach's sign-in grants nothing for the MCP resource and returns `access_denied`. Whenever the server's scopes change, update the list and run `--verify-scopes`.
 
 ## Support
 

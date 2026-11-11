@@ -27,7 +27,64 @@
   ],
   "mcp": {
     "server": "anyreach",
-    "url": "https://api.anyreach.ai/mcp"
+    "url": "https://api.anyreach.ai/mcp",
+    "oauthScopes": [
+      "openid",
+      "profile",
+      "email",
+      "offline_access",
+      "agents:read",
+      "agents:manage",
+      "agent_versions:read",
+      "agent_versions:manage",
+      "conversations:read",
+      "conversations:manage",
+      "phone_numbers:read",
+      "phone_numbers:manage",
+      "datasets:read",
+      "datasets:manage",
+      "sources:read",
+      "sources:manage",
+      "workflows:read",
+      "workflows:manage",
+      "campaigns:read",
+      "campaigns:manage",
+      "members:read",
+      "members:manage",
+      "organizations:manage",
+      "email_sequences:read",
+      "email_sequences:manage",
+      "resources:manage",
+      "trunks:read",
+      "trunks:manage",
+      "web_widgets:read",
+      "web_widgets:manage",
+      "managed_accounts:read",
+      "managed_accounts:manage",
+      "assessments:read",
+      "assessments:manage",
+      "email_addresses:read",
+      "email_addresses:manage",
+      "email_domains:read",
+      "email_domains:manage",
+      "unsubscribes:read",
+      "unsubscribes:manage",
+      "dataset_sources:read",
+      "dataset_sources:manage",
+      "inbound_routing_configs:read",
+      "inbound_routing_configs:manage",
+      "datasets:query",
+      "conversations:dial",
+      "conversations:read_sensitive",
+      "workflows:execute",
+      "concurrency:read",
+      "concurrency:manage",
+      "workflow_executions:read",
+      "workflow_executions:read_sensitive",
+      "custom_data:manage",
+      "compare_ivr:use",
+      "python_functions:write"
+    ]
   },
   "clients": {
     "cursor": {
@@ -37,13 +94,19 @@
     "grok": {
       "oauthClientId": "39yzzwg2btlknvrwz7jqm",
       "category": "productivity",
-      "domains": ["anyreach.ai"]
+      "domains": [
+        "anyreach.ai"
+      ]
     },
     "devin": {
       "oauthClientId": "5paz5kclbefzdymazogru",
       "description": "Build AI agents that handle calls, web chats, and email — and automate everything around them",
       "shortDescription": "AI agents for calls, chat and email",
-      "keywords": ["Customer & Sales", "Communication", "AI & Machine Learning"]
+      "keywords": [
+        "Customer & Sales",
+        "Communication",
+        "AI & Machine Learning"
+      ]
     }
   },
   "registry": {
