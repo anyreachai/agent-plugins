@@ -57,13 +57,6 @@ node scripts/sync.mjs --check   # what CI runs
 node scripts/sync.mjs --strict  # also fails on *_TBD placeholders; run before a release
 ```
 
-### Adding a product
-
-1. Add `shared/plugins/<name>.json` (copy `anyreach.json`; keep keywords brand-scoped). Set `registry.path` to `plugins/<name>/server.json`.
-2. Add `<name>` to `plugins` in `shared/marketplace.json`.
-3. Add `plugins/<name>/README.md` and `plugins/<name>/assets/logo.svg`, then run `node scripts/sync.mjs`.
-4. Register the product's own Logto public apps for Cursor, Grok Build and Devin.
-
 ## Support
 
 support@anyreach.ai · [Security policy](SECURITY.md) · [Privacy](https://anyreach.ai/legal/privacy) · [Terms](https://anyreach.ai/legal/terms)
