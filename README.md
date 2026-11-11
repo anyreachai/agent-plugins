@@ -59,15 +59,10 @@ node scripts/sync.mjs --strict  # also fails on *_TBD placeholders; run before a
 
 ### Adding a product
 
-1. Add `shared/plugins/<name>.json` (copy `anyreach.json`; keep keywords brand-scoped, e.g. `gtm-lab ...`). Set `registry.path` to `plugins/<name>/server.json`.
+1. Add `shared/plugins/<name>.json` (copy `anyreach.json`; keep keywords brand-scoped). Set `registry.path` to `plugins/<name>/server.json`.
 2. Add `<name>` to `plugins` in `shared/marketplace.json`.
 3. Add `plugins/<name>/README.md` and `plugins/<name>/assets/logo.svg`, then run `node scripts/sync.mjs`.
 4. Register the product's own Logto public apps for Cursor, Grok Build and Devin.
-
-Planned:
-
-- TODO `gtm-lab` — `https://gtm-lab-api.anyreach.ai/mcp`
-- TODO `anycrm` — `https://crm-api.anyreach.ai/mcp`
 
 ## Support
 
