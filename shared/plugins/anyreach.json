@@ -35,12 +35,12 @@
     },
     "claude": {},
     "grok": {
-      "oauthClientId": "GROK_BUILD_CLIENT_ID_TBD",
+      "oauthClientId": "39yzzwg2btlknvrwz7jqm",
       "category": "productivity",
       "domains": ["anyreach.ai"]
     },
     "devin": {
-      "oauthClientId": "DEVIN_CLIENT_ID_TBD",
+      "oauthClientId": "5paz5kclbefzdymazogru",
       "description": "Build AI agents that handle calls, web chats, and email — and automate everything around them",
       "shortDescription": "AI agents for calls, chat and email",
       "keywords": ["Customer & Sales", "Communication", "AI & Machine Learning"]

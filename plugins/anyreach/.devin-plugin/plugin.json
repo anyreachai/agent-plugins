@@ -14,7 +14,7 @@
   "mcpServers": {
     "anyreach": {
       "url": "https://api.anyreach.ai/mcp",
-      "oauthClientId": "DEVIN_CLIENT_ID_TBD"
+      "oauthClientId": "5paz5kclbefzdymazogru"
     }
   }
 }
