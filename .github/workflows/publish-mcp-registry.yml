@@ -1,0 +1,75 @@
+name: publish-mcp-registry
+
+# Publishes server.json to the Official MCP Registry as ai.anyreach/anyreach.
+# Runs when server.json changes on main, or by hand from the Actions tab.
+# A version that is already in the registry is skipped, so bump `version` in
+# shared/ to publish a change.
+
+on:
+  push:
+    branches: [main]
+    paths: [server.json]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-mcp-registry
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    # MCP_PRIVATE_KEY is a secret on this environment, which only main can use.
+    environment: mcp-registry-publish
+    env:
+      MCP_PUBLISHER_VERSION: v1.8.9
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Skip if this version is already published
+        id: check
+        run: |
+          set -euo pipefail
+          name="$(jq -r .name server.json)"
+          version="$(jq -r .version server.json)"
+          encoded="$(jq -rn --arg n "$name" '$n|@uri')"
+          status="$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            "https://registry.modelcontextprotocol.io/v0.1/servers/${encoded}/versions/${version}")"
+          case "$status" in
+            200) echo "$name $version is already published"; echo "publish=false" >> "$GITHUB_OUTPUT" ;;
+            404) echo "publish=true" >> "$GITHUB_OUTPUT" ;;
+            *) echo "registry lookup returned HTTP $status" >&2; exit 1 ;;
+          esac
+
+      - name: Install cosign
+        if: steps.check.outputs.publish == 'true'
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+
+      - name: Download and verify mcp-publisher
+        if: steps.check.outputs.publish == 'true'
+        run: |
+          set -euo pipefail
+          archive="mcp-publisher_linux_amd64.tar.gz"
+          base_url="https://github.com/modelcontextprotocol/registry/releases/download/${MCP_PUBLISHER_VERSION}"
+          curl --fail --location --silent --show-error --output "$archive" "$base_url/$archive"
+          curl --fail --location --silent --show-error --output "$archive.sigstore.json" "$base_url/$archive.sigstore.json"
+          cosign verify-blob \
+            --bundle "$archive.sigstore.json" \
+            --certificate-identity "https://github.com/modelcontextprotocol/registry/.github/workflows/release.yml@refs/tags/${MCP_PUBLISHER_VERSION}" \
+            --certificate-oidc-issuer "https://token.actions.githubusercontent.com" \
+            "$archive"
+          tar xzf "$archive" mcp-publisher
+          rm -f "$archive" "$archive.sigstore.json"
+
+      # Proves control of anyreach.ai through the MCPv1 TXT record on its apex.
+      - name: Log in to the registry
+        if: steps.check.outputs.publish == 'true'
+        env:
+          MCP_PRIVATE_KEY: ${{ secrets.MCP_PRIVATE_KEY }}
+        run: ./mcp-publisher login dns --domain anyreach.ai --private-key "$MCP_PRIVATE_KEY"
+
+      - name: Publish server.json
+        if: steps.check.outputs.publish == 'true'
+        run: ./mcp-publisher publish

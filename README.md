@@ -60,6 +60,12 @@ node scripts/sync.mjs --verify-scopes  # compares mcp.oauthScopes with the live 
 
 `mcp.oauthScopes` in `shared/plugins/anyreach.json` must match the scopes `https://api.anyreach.ai/mcp` advertises in the `scope="…"` of its 401 `WWW-Authenticate` header. Grok Build and Devin send only the scopes listed in their config (`oauth.scopes` and `oauthScopes`, both generated from this list). Without them, Anyreach's sign-in grants nothing for the MCP resource and returns `access_denied`. Whenever the server's scopes change, update the list and run `--verify-scopes`.
 
+## Publishing to the MCP Registry
+
+`.github/workflows/publish-mcp-registry.yml` publishes `server.json` to the [Official MCP Registry](https://registry.modelcontextprotocol.io) as `ai.anyreach/anyreach`. It runs when `server.json` changes on `main`, or by hand from the Actions tab, and skips a version the registry already has. To publish a change, bump `version` in `shared/`.
+
+The registry checks that we control anyreach.ai through an `MCPv1` TXT record on the anyreach.ai apex. The matching Ed25519 private key is the `MCP_PRIVATE_KEY` secret on the `mcp-registry-publish` environment, which only `main` can use. To rotate the key, publish the new TXT record, update the secret, then remove the old record.
+
 ## Support
 
 support@anyreach.ai · [Security policy](SECURITY.md) · [Privacy](https://anyreach.ai/legal/privacy) · [Terms](https://anyreach.ai/legal/terms)
